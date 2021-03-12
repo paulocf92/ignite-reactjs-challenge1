@@ -10,12 +10,7 @@ interface Task {
   isComplete: boolean;
 }
 
-interface Id {
-  [key: number]: boolean;
-}
-
 export function TaskList() {
-  const [ids, setIds] = useState<Id[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
@@ -23,17 +18,10 @@ export function TaskList() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
     if (!newTaskTitle) return;
 
-    let newId = 0;
-
-    while(ids[newId]) {
-      newId = Math.floor(Math.random() * 999999);
-    }
-
-    // Armazena os ids para evitar duplicidade
-    setIds([...ids, {[newId]: true}]);
+    const currentTime = new Date().getTime();
 
     const newTask = {
-      id: newId,
+      id: currentTime,
       title: newTaskTitle,
       isComplete: false,
     };
